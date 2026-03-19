@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --ctp-base: #1e1e2e;
+  --ctp-mantle: #181825;
+  --ctp-crust: #11111b;
+  --ctp-surface0: #313244;
+  --ctp-surface1: #45475a;
+  --ctp-surface2: #585b70;
+  --ctp-overlay0: #6c7086;
+  --ctp-overlay1: #7f849c;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext0: #a6adc8;
+  --ctp-subtext1: #bac2de;
+  --ctp-blue: #89b4fa;
+  --ctp-green: #a6e3a1;
+  --ctp-yellow: #f9e2af;
+  --ctp-red: #f38ba8;
+  --ctp-peach: #fab387;
+  --ctp-mauve: #cba6f7;
+  --ctp-teal: #94e2d5;
+  --ctp-lavender: #b4befe;
+  --ctp-sky: #89dcfe;
+  --ctp-pink: #f5c2e7;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ctp-surface1) transparent;
+}
+
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--ctp-surface1); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--ctp-surface2); }
+
+body {
+  margin: 0;
+  background: var(--ctp-base);
+  color: var(--ctp-text);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Scale up on high-DPI screens */
+@media (min-resolution: 144dpi) {
+  :root { font-size: 16px; }
+}
+
+#root {
+  height: 100vh;
+}
+
+/* CodeMirror Catppuccin overrides */
+.cm-editor {
+  height: 100%;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 15px;
+  background: var(--ctp-base) !important;
+}
+
+.cm-editor .cm-gutters {
+  background: var(--ctp-mantle) !important;
+  border-right: 1px solid var(--ctp-surface0) !important;
+  color: var(--ctp-overlay0) !important;
+}
+
+.cm-editor .cm-activeLineGutter {
+  background: var(--ctp-surface0) !important;
+  color: var(--ctp-text) !important;
+}
+
+.cm-editor .cm-activeLine {
+  background: rgba(49, 50, 68, 0.4) !important;
+}
+
+.cm-editor .cm-selectionBackground {
+  background: rgba(137, 180, 250, 0.2) !important;
+}
+
+.cm-editor .cm-cursor {
+  border-left-color: var(--ctp-text) !important;
+}
+
+.cm-editor .cm-content {
+  caret-color: var(--ctp-text);
+}
+
+/* Yjs remote cursor styles */
+.cm-ySelectionInfo {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 1px 6px !important;
+  border-radius: 3px 3px 3px 0 !important;
+  opacity: 1 !important;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Transition for panels */
+.panel-transition {
+  transition: width 200ms ease, opacity 200ms ease;
+}
