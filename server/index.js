@@ -412,9 +412,8 @@ const upload = multer({
       cb(null, dir);
     },
     filename: (req, file, cb) => {
-      // Use the original filename (with subfolder path encoded as __)
-      const safeName = (req.body.filePath || file.originalname).replace(/\//g, '__');
-      cb(null, safeName);
+      // Temp name — will rename after body is parsed
+      cb(null, `__tmp_${Date.now()}_${file.originalname}`);
     },
   }),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
@@ -424,6 +423,12 @@ const upload = multer({
 app.post('/api/projects/:slug/upload', upload.single('file'), async (req, res) => {
   try {
     const filePath = req.body.filePath || req.file.originalname;
+    // Rename from temp to correct safe name (multer filename runs before body is parsed)
+    const safeName = filePath.replace(/\//g, '__');
+    const dir = path.join(UPLOAD_DIR, req.params.slug);
+    const tmpPath = req.file.path;
+    const finalPath = path.join(dir, safeName);
+    if (tmpPath !== finalPath) fs.renameSync(tmpPath, finalPath);
     // Log activity
     await Activity.create({
       projectSlug: req.params.slug,
@@ -440,6 +445,7 @@ app.post('/api/projects/:slug/upload', upload.single('file'), async (req, res) =
 
 // Serve binary file (inline for PDF/images, download for others)
 app.get('/api/projects/:slug/files/*', (req, res) => {
+  res.set('Cache-Control', 'no-store');
   const filePath = req.params[0];
   const safeName = filePath.replace(/\//g, '__');
   const fullPath = path.join(UPLOAD_DIR, req.params.slug, safeName);

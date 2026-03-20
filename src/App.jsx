@@ -331,7 +331,7 @@ void loop() {
             // Binary file preview
             (() => {
               const ext = '.' + activeFile.split('.').pop().toLowerCase();
-              const fileUrl = `/api/projects/${slug}/files/${activeFile}`;
+              const fileUrl = `/api/projects/${slug}/files/${activeFile.split('/').map(s => encodeURIComponent(s)).join('/')}`;
               const fileName = activeFile.split('/').pop();
               if (ext === '.pdf') {
                 return (
